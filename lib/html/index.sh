@@ -1,5 +1,5 @@
 #!/bin/bash
 
 default=default.html
-cp $2/$default $1.html
-chmod 644 $1.html
+cp $2/$default $1
+chmod 644 $1

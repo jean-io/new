@@ -1,6 +1,6 @@
 #!/bin/bash
 
-loc=/Users/Jean/.new
+loc=/Users/Jean/Documents/dev/new/lib
 default=index.sh
 
 if [[ $# -lt 2 ]]; then

@@ -1,4 +1,4 @@
 #!/bin/bash
 
-touch $1.sql
-chmod 644 $1.sql
+touch $1
+chmod 644 $1

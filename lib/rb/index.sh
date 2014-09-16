@@ -1,5 +1,5 @@
 #!/bin/bash
 
-touch $1.rb
-echo "#!/usr/bin/env ruby" > $1.rb
-chmod 755 $1.rb
+touch $1
+echo "#!/usr/bin/env ruby" > $1
+chmod 755 $1

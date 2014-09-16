@@ -1,4 +1,4 @@
 #!/bin/bash
 
-touch $1.js
-chmod 644 $1.js
+touch $1
+chmod 644 $1

@@ -15,8 +15,6 @@ if [[ ! -z $2 ]]; then
 	extension=$2
 fi
 
-echo $extension
-
 let "exist=0"
 
 for fichier in `ls $loc`; do

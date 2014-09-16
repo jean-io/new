@@ -1,0 +1,33 @@
+#!/bin/bash
+
+loc=/Users/Jean/.new
+default=index.sh
+
+if [[ $# -lt 2 ]]; then
+	echo "new: error: missing arguments"
+	exit 1
+fi
+
+let "exist=0"
+
+for fichier in `ls $loc`; do
+	if [[ $fichier = $1 ]]; then
+		let "exist+=1"
+	fi
+done
+if [[ $exist -ne 1 ]]; then
+	echo "new: error: $1: file type not registered"
+	exit 2
+fi
+
+for fichier in `ls`; do
+	if [[ $fichier = "$2.$1" ]]; then
+		let "exist-=1"
+	fi
+done
+if [[ $exist -ne 1 ]]; then
+	echo "new: error: $2: file already exist"
+	exit 3
+fi
+
+$loc/$1/$default $2 $loc/$1

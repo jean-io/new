@@ -1,5 +1,14 @@
 #!/bin/bash
 
+###########################################
+#                                         #
+#   Jean Mercadier (jmercadier.fr)        #
+#   new - https://github.com/Ricain/new   #
+#   MIT License                           #
+#                                         #
+###########################################
+
+
 loc=~/.new
 default=index.sh
 

@@ -20,4 +20,4 @@ $ sh install.sh
 
 ## Liscence
 
-GPL v2
+MIT License

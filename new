@@ -9,7 +9,7 @@
 ###########################################
 
 
-loc=/Users/Jean/Documents/dev/new/lib
+loc=~/.new
 default=index.sh
 
 if [[ $# -lt 1 ]]; then

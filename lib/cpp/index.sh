@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 default=default.cpp
 cp $2/$default $1

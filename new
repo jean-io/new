@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 ###########################################
 #                                         #
@@ -9,7 +9,7 @@
 ###########################################
 
 
-loc=~/.new
+loc=/Users/Jean/Documents/dev/new/lib
 default=index.sh
 
 if [[ $# -lt 1 ]]; then

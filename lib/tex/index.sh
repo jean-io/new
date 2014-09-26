@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 default=default.tex
 cp $2/$default $1

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 default=default.php
 cp $2/$default $1

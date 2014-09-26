@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
-touch $1
+echo "\$(document).ready(function () {\n\n}" > $1
 chmod 644 $1

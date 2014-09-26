@@ -1,5 +1,5 @@
-#!/bin/bash
+#!/bin/sh
 
-default=default.sh
-cp $2/$default $1
+touch $1
+echo "#!/bin/sh" > $1
 chmod 755 $1

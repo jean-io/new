@@ -24,39 +24,39 @@ loc=~/.new
 default=index.sh
 
 function printHelp() {
-  # Help Display
-  # $1: if set and not empty, used as error code to exit
+	# Help Display
+	# $1: if set and not empty, used as error code to exit
 
-  echo "This tool is used to generate basic files to get started in projects"
-  echo "The basic syntax is 'new filename'"
-  echo
-  echo "    AVAILABLE OPTIONS:"
-  echo
-  echo "* --help              Show this"
-  echo "* --extension  | -e   Use a set extension type for all generated files"
-  echo "* --options    | -o   Options to pass to the file builder"
-  echo "                      All options should be passed at once"
-  echo "* --builder    | -b   Use a specific builder to generate files"
-  echo "                      Do not use unless you know what you're doing"
-  echo "* --multiple   | -m   Used to generate files with multiple extensions \
+	echo "This tool is used to generate basic files to get started in projects"
+	echo "The basic syntax is 'new filename'"
+	echo
+	echo "    AVAILABLE OPTIONS:"
+	echo
+	echo "* --help              Show this"
+	echo "* --extension  | -e   Use a set extension type for all generated files"
+	echo "* --options    | -o   Options to pass to the file builder"
+	echo "                      All options should be passed at once"
+	echo "* --builder    | -b   Use a specific builder to generate files"
+	echo "                      Do not use unless you know what you're doing"
+	echo "* --multiple   | -m   Used to generate files with multiple extensions \
 from one base name"
-  echo "                      Separate each extension with a comma"
-  echo "                      NOTE: only applied to the files AFTER the declaration"
-  echo
-  echo "    EXEMPLES:"
-  echo
-  echo "        new -eh file.h file.hpp"
-  echo "Creates two files using the presets for the .h extension"
-  echo "        new -o \"--help\" file.c"
-  echo "Creates a new file filed with the builder's help if it exists"
-  echo "        new -m c,h stack data"
-  echo "Creates 4 files: 'stack.c', 'stack.h', 'data.c' and 'data.h'"
-  echo "        new test.c -m c,h data --extension=c"
-  echo "Creates 3 files: 'test.c', 'data.c' and 'data.h' with the content of a .c"
+	echo "                      Separate each extension with a comma"
+	echo "                      NOTE: only applied to the files AFTER the declaration"
+	echo
+	echo "    EXEMPLES:"
+	echo
+	echo "        new -eh file.h file.hpp"
+	echo "Creates two files using the presets for the .h extension"
+	echo "        new -o \"--help\" file.c"
+	echo "Creates a new file filed with the builder's help if it exists"
+	echo "        new -m c,h stack data"
+	echo "Creates 4 files: 'stack.c', 'stack.h', 'data.c' and 'data.h'"
+	echo "        new test.c -m c,h data --extension=c"
+	echo "Creates 3 files: 'test.c', 'data.c' and 'data.h' with the content of a .c"
 
-  if [ ! -z "$1" ]; then
-    exit $1
-  fi
+	if [ ! -z "$1" ]; then
+		exit $1
+	fi
 }
 
 MAIN_EXTENSION=""
@@ -72,174 +72,174 @@ if [[ $# -lt 1 ]]; then
 fi
 
 while [ $# -ge 1 ]; do
-  is_option=0                 # Wether the current param is an option
-  main_part=""                # Main option part ( ex: '-e c', value: 'e')
-  optionnal_part=""           # Optionnal part (ex: '-e c', value 'c')
-  is_opt_used=0               # Wether the optionnal part has been used
-  is_optionnal_part_linked=0  # Wether the optionnal part was in the option or one param later
+	is_option=0                 # Wether the current param is an option
+	main_part=""                # Main option part ( ex: '-e c', value: 'e')
+	optionnal_part=""           # Optionnal part (ex: '-e c', value 'c')
+	is_opt_used=0               # Wether the optionnal part has been used
+	is_optionnal_part_linked=0  # Wether the optionnal part was in the option or one param later
 
-  arg="${1}"
-  shift
+	arg="${1}"
+	shift
 
-  #
-  # Parse parameters
-  #
-  # Detects if an option is being used (is_option=1) and stores its name
-  # in 'main_part' and the eventual option argument in 'optionnal_part'
-  #
-  # Set is_opt_used to 1 if an option makes use of optionnal_part
-  #
-  if [ "${arg::2}" = "--" ]; then   # Long parameters
-    is_option=1
-    main_part="${arg:2}"
-    main_part="${main_part/%=*}"
-    if [ "$arg" != "${arg#*=}" ] && [ ! -z "${arg#*=}" ]; then
-      optionnal_part="${arg#*=}"
-    else
-      optionnal_part="$1"
-      is_optionnal_part_linked=1
-    fi
-  elif [ "${arg::1}" = "-" ]; then    # Short parameters
-    is_option=1
-    main_part="${arg:1:1}"
-    if [ ! -z "${arg:2}" ]; then
-      optionnal_part="${arg:2}"
-    else
-      optionnal_part="$1"
-      is_optionnal_part_linked=1
-    fi
-  fi
+	#
+	# Parse parameters
+	#
+	# Detects if an option is being used (is_option=1) and stores its name
+	# in 'main_part' and the eventual option argument in 'optionnal_part'
+	#
+	# Set is_opt_used to 1 if an option makes use of optionnal_part
+	#
+	if [ "${arg::2}" = "--" ]; then   # Long parameters
+		is_option=1
+		main_part="${arg:2}"
+		main_part="${main_part/%=*}"
+		if [ "$arg" != "${arg#*=}" ] && [ ! -z "${arg#*=}" ]; then
+			optionnal_part="${arg#*=}"
+		else
+			optionnal_part="$1"
+			is_optionnal_part_linked=1
+		fi
+	elif [ "${arg::1}" = "-" ]; then    # Short parameters
+		is_option=1
+		main_part="${arg:1:1}"
+		if [ ! -z "${arg:2}" ]; then
+			optionnal_part="${arg:2}"
+		else
+			optionnal_part="$1"
+			is_optionnal_part_linked=1
+		fi
+	fi
 
-  #
-  # Manage options
-  #
-  if [ $is_option -eq 1 ]; then
+	#
+	# Manage options
+	#
+	if [ $is_option -eq 1 ]; then
 
-    case "$main_part" in
-      "h" | "help" )          # Display help & exit
-        printHelp 0
-        ;;
-      "e" | "extension" )     # Change extension preset
-        if [ ! -z "$optionnal_part" ]; then
-          is_opt_used=1
-          MAIN_EXTENSION="$optionnal_part"
-        else
-          echo "The option '$main_part' expects a parameter" >&2
-          printHelp 3 >&2
-        fi
-        ;;
-      "b" | "builder" )       # Use a different generator in an extension
-        if [ ! -z "$optionnal_part" ]; then
-          is_opt_used=1
-          BUILDER="$optionnal_part"
-        else
-          echo "The option '$main_part' expects a parameter" >&2
-          printHelp 3 >&2
-        fi
-        ;;
-      "o" | "option" )        # Pass options to the generator
-        if [ ! -z "$optionnal_part" ]; then
-          is_opt_used=1
-          PARAMETERS="$optionnal_part"
-        else
-          echo "The option '$main_part' expects a parameter" >&2
-          printHelp 3 >&2
-        fi
-        ;;
-      "m" | "multiple" )      # Generate multiple files from one name
-        is_opt_used=1
-        is_multiple_picky=0
-        EXTENSION_LIST=(${optionnal_part//,/$IFS})
-        ;;
-      "M" | "multiple-picky" )# Generate multiple  files from one name if no extension
-        is_opt_used=1
-        is_multiple_picky=1
-        EXTENSION_LIST=(${optionnal_part//,/$IFS})
-        ;;
-      * )                     # Unrecognised option, throw error and exit
-        echo "Unrecognised option: $arg" >&2
-        printHelp 2 >&2
-        ;;
-    esac
-  else
+		case "$main_part" in
+			"h" | "help" )          # Display help & exit
+				printHelp 0
+				;;
+			"e" | "extension" )     # Change extension preset
+				if [ ! -z "$optionnal_part" ]; then
+					is_opt_used=1
+					MAIN_EXTENSION="$optionnal_part"
+				else
+					echo "The option '$main_part' expects a parameter" >&2
+					printHelp 3 >&2
+				fi
+				;;
+			"b" | "builder" )       # Use a different generator in an extension
+				if [ ! -z "$optionnal_part" ]; then
+					is_opt_used=1
+					BUILDER="$optionnal_part"
+				else
+					echo "The option '$main_part' expects a parameter" >&2
+					printHelp 3 >&2
+				fi
+				;;
+			"o" | "option" )        # Pass options to the generator
+				if [ ! -z "$optionnal_part" ]; then
+					is_opt_used=1
+					PARAMETERS="$optionnal_part"
+				else
+					echo "The option '$main_part' expects a parameter" >&2
+					printHelp 3 >&2
+				fi
+				;;
+			"m" | "multiple" )      # Generate multiple files from one name
+				is_opt_used=1
+				is_multiple_picky=0
+				EXTENSION_LIST=(${optionnal_part//,/$IFS})
+				;;
+			"M" | "multiple-picky" )# Generate multiple  files from one name if no extension
+				is_opt_used=1
+				is_multiple_picky=1
+				EXTENSION_LIST=(${optionnal_part//,/$IFS})
+				;;
+			* )                     # Unrecognised option, throw error and exit
+				echo "Unrecognised option: $arg" >&2
+				printHelp 2 >&2
+				;;
+		esac
+	else
 
-    # Append file to generate
-    if [ ! -z "$arg" ]
-    then
-      temp_filename="${arg##*\/}"
-      if [ ${#EXTENSION_LIST[@]} -eq 0 ] || [ $is_multiple_picky -eq 1 ] && [ "${temp_filename//./}" != "$temp_filename" ]; then
-        FILE_LIST+=("$arg")
-      else
-        for extension_name in "${EXTENSION_LIST[@]}"; do
-          FILE_LIST+=("$arg.$extension_name")
-        done
-      fi
-    fi
-  fi
+		# Append file to generate
+		if [ ! -z "$arg" ]
+		then
+			temp_filename="${arg##*\/}"
+			if [ ${#EXTENSION_LIST[@]} -eq 0 ] || [ $is_multiple_picky -eq 1 ] && [ "${temp_filename//./}" != "$temp_filename" ]; then
+				FILE_LIST+=("$arg")
+			else
+				for extension_name in "${EXTENSION_LIST[@]}"; do
+					FILE_LIST+=("$arg.$extension_name")
+				done
+			fi
+		fi
+	fi
 
-  if [ $is_opt_used -ne 0 ] && [ $is_optionnal_part_linked -ne 0 ]; then
-    shift
-  fi
+	if [ $is_opt_used -ne 0 ] && [ $is_optionnal_part_linked -ne 0 ]; then
+		shift
+	fi
 done
 
 file_num=${#FILE_LIST[@]}
 file_not_generated=0
 file_builder_errors=0
 if [ $file_num -le 0 ]; then
-  echo "No file to generate received" >&2
-  printHelp 10
+	echo "No file to generate received" >&2
+	printHelp 10
 else
-  default="${BUILDER:-$default}"
+	default="${BUILDER:-$default}"
 
-  file_num_index=$file_num
-  while [ $file_num_index -gt 0 ]; do
-    file_num_index=$[file_num_index-1]
-    #newFile "${FILE_LIST[$file_num_index]}" "$MAIN_EXTENSION" "$PARAMETERS"
-    
-      # Use extension set manually or use the file's extension
-    filename="${FILE_LIST[$file_num_index]}"
-   	extension="${MAIN_EXTENSION:-${filename##*.}}"
-    
-    if [ ! -z "$@" ]; then
-      options="$PARAMETERS"
-    fi
-    
-    if [ ! -d "$loc/$extension" ]; then
-    	echo "new: error: $extension: file type not registered" >&2
-      file_not_generated=$[file_not_generated+1]
-      continue
-    fi
-    
-    if [ -e "$filename" ]; then
-    	echo "new: error: $filename: file already exist" >&2
-      file_not_generated=$[file_not_generated+1]
-      continue
-    fi
+	file_num_index=$file_num
+	while [ $file_num_index -gt 0 ]; do
+		file_num_index=$[file_num_index-1]
+		#newFile "${FILE_LIST[$file_num_index]}" "$MAIN_EXTENSION" "$PARAMETERS"
+		
+			# Use extension set manually or use the file's extension
+		filename="${FILE_LIST[$file_num_index]}"
+	 	extension="${MAIN_EXTENSION:-${filename##*.}}"
+		
+		if [ ! -z "$@" ]; then
+			options="$PARAMETERS"
+		fi
+		
+		if [ ! -d "$loc/$extension" ]; then
+			echo "new: error: $extension: file type not registered" >&2
+			file_not_generated=$[file_not_generated+1]
+			continue
+		fi
+		
+		if [ -e "$filename" ]; then
+			echo "new: error: $filename: file already exist" >&2
+			file_not_generated=$[file_not_generated+1]
+			continue
+		fi
 
-    builder_found=0
-    for build_extension in "${BUILDER_EXTENSIONS[@]}"; do
-      if [ -f "$loc/$extension/$default$build_extension" ]; then
-        output="$("$loc/$extension/$default$build_extension" "$filename" "$loc/$extension")"
-        if [ ! $? ]; then
-          file_builder_error=$[file_builder_error+1]
-        fi
-        builder_found=1
-        break
-      fi
-    done
+		builder_found=0
+		for build_extension in "${BUILDER_EXTENSIONS[@]}"; do
+			if [ -f "$loc/$extension/$default$build_extension" ]; then
+				output="$("$loc/$extension/$default$build_extension" "$filename" "$loc/$extension")"
+				if [ ! $? ]; then
+					file_builder_error=$[file_builder_error+1]
+				fi
+				builder_found=1
+				break
+			fi
+		done
 
-    if [ $builder_found -eq 0 ]; then
-      echo "Could not find builder named $default for $filename" >&2
-      file_not_generated=$[file_not_generated+1]
-    fi
+		if [ $builder_found -eq 0 ]; then
+			echo "Could not find builder named $default for $filename" >&2
+			file_not_generated=$[file_not_generated+1]
+		fi
 
-  done
+	done
 fi
 
 if [ $file_not_generated -ne 0 ]; then
-  exit 11
+	exit 11
 fi
 if [ $file_builder_errors -ne 0 ]; then
-  exit 12
+	exit 12
 fi
 

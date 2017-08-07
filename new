@@ -148,6 +148,12 @@ while [ $# -ge 1 ]; do
         ;;
       "m" | "multiple" )      # Generate multiple files from one name
         is_opt_used=1
+        is_multiple_picky=0
+        EXTENSION_LIST=(${optionnal_part//,/$IFS})
+        ;;
+      "M" | "multiple-picky" )# Generate multiple  files from one name if no extension
+        is_opt_used=1
+        is_multiple_picky=1
         EXTENSION_LIST=(${optionnal_part//,/$IFS})
         ;;
       * )                     # Unrecognised option, throw error and exit
@@ -160,7 +166,8 @@ while [ $# -ge 1 ]; do
     # Append file to generate
     if [ ! -z "$arg" ]
     then
-      if [ ${#EXTENSION_LIST[@]} -eq 0 ]; then
+      temp_filename="${arg##*\/}"
+      if [ ${#EXTENSION_LIST[@]} -eq 0 ] || [ $is_multiple_picky -eq 1 ] && [ "${temp_filename//./}" != "$temp_filename" ]; then
         FILE_LIST+=("$arg")
       else
         for extension_name in "${EXTENSION_LIST[@]}"; do
@@ -214,7 +221,6 @@ else
       if [ -f "$loc/$extension/$default$build_extension" ]; then
         output="$("$loc/$extension/$default$build_extension" "$filename" "$loc/$extension")"
         if [ ! $? ]; then
-          echo ""
           file_builder_error=$[file_builder_error+1]
         fi
         builder_found=1

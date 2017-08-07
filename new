@@ -194,7 +194,6 @@ else
 	file_num_index=$file_num
 	while [ $file_num_index -gt 0 ]; do
 		file_num_index=$[file_num_index-1]
-		#newFile "${FILE_LIST[$file_num_index]}" "$MAIN_EXTENSION" "$PARAMETERS"
 		
 			# Use extension set manually or use the file's extension
 		filename="${FILE_LIST[$file_num_index]}"

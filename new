@@ -24,24 +24,12 @@ if [[ ! -z $2 ]]; then
 	extension=$2
 fi
 
-let "exist=0"
-
-for fichier in `ls $loc`; do
-	if [[ $fichier = $extension ]]; then
-		let "exist+=1"
-	fi
-done
-if [[ $exist -ne 1 ]]; then
+if [ ! -d "$loc/$extension" ]; then
 	echo "new: error: $extension: file type not registered"
 	exit 2
 fi
 
-for fichier in `ls`; do
-	if [[ $fichier = "$filename" ]]; then
-		let "exist-=1"
-	fi
-done
-if [[ $exist -ne 1 ]]; then
+if [ -e "$filename" ]; then
 	echo "new: error: $filename: file already exist"
 	exit 3
 fi

@@ -42,17 +42,21 @@ function printHelp() {
 from one base name"
 	echo "                      Separate each extension with a comma"
 	echo "                      NOTE: only applied to the files AFTER the declaration"
+	echo " --multiple-picky | -M    Same as --multiple | -m but checks \
+wether the file already has an extension"
 	echo
 	echo "    EXEMPLES:"
 	echo
-	echo "        new -eh file.h file.hpp"
+	echo "        new -e h file.h file.hpp"
 	echo "Creates two files using the presets for the .h extension"
 	echo "        new -o \"--help\" file.c"
-	echo "Creates a new file filed with the builder's help if it exists"
+	echo "Creates a new file filed with the c builder's help if it exists"
 	echo "        new -m c,h stack data"
 	echo "Creates 4 files: 'stack.c', 'stack.h', 'data.c' and 'data.h'"
 	echo "        new test.c -m c,h data --extension=c"
 	echo "Creates 3 files: 'test.c', 'data.c' and 'data.h' with the content of a .c"
+	echo "        new -M c,h test.c data"
+	echo "Creates 3 files: 'test.c', 'data.c' and 'data.h'"
 
 	if [ ! -z "$1" ]; then
 		exit $1

@@ -1,6 +1,8 @@
 # New
 
-New is a simple Linux command written in bash that allow you to create file with automatic template depending on the extension.
+New is a simple Linux command written in bash that allow you to create files with automatic template depending on extensions.
+
+:kissing_smiling_eyes: Special thank to @Ayowel for his contributions.
 
 ## Usage
 

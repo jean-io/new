@@ -198,21 +198,21 @@ else
 	file_num_index=$file_num
 	while [ $file_num_index -gt 0 ]; do
 		file_num_index=$[file_num_index-1]
-		
+
 			# Use extension set manually or use the file's extension
 		filename="${FILE_LIST[$file_num_index]}"
 	 	extension="${MAIN_EXTENSION:-${filename##*.}}"
-		
+
 		if [ ! -z "$@" ]; then
 			options="$PARAMETERS"
 		fi
-		
+
 		if [ ! -d "$loc/$extension" ]; then
 			echo "new: error: $extension: file type not registered" >&2
 			file_not_generated=$[file_not_generated+1]
 			continue
 		fi
-		
+
 		if [ -e "$filename" ]; then
 			echo "new: error: $filename: file already exist" >&2
 			file_not_generated=$[file_not_generated+1]
@@ -224,7 +224,7 @@ else
 			if [ -f "$loc/$extension/$default$build_extension" ]; then
 				output="$("$loc/$extension/$default$build_extension" "$filename" "$loc/$extension")"
 				if [ ! $? ]; then
-					file_builder_error=$[file_builder_error+1]
+					file_builder_errors=$[file_builder_errors+1]
 				fi
 				builder_found=1
 				break
@@ -245,4 +245,3 @@ fi
 if [ $file_builder_errors -ne 0 ]; then
 	exit 12
 fi
-

@@ -66,7 +66,7 @@ wether the file already has an extension"
 MAIN_EXTENSION=""
 BUILDER="${default}"
 BUILDER_EXTENSIONS=( "" ".sh" ".py" )
-MODEL_EXTENSIONS=(".txt")
+MODEL_EXTENSIONS=( ".txt" )
 PARAMETERS=""
 FILE_LIST=()
 EXTENSION_LIST=()
@@ -220,30 +220,47 @@ else
 			continue
 		fi
 
-		# generate file
 		builder_found=0
 		# find builder
 		for build_extension in "${BUILDER_EXTENSIONS[@]}"; do
-			if [ -f "$loc/$extension/$default$build_extension" ]; then
-				output="$("$loc/$extension/$default$build_extension" "$filename" "$loc/$extension")"
-				if [ ! $? ]; then
-					echo "Builder error for file '$filename' :" >&2
-					echo "$output" >&2
-					file_builder_errors=$[file_builder_errors+1]
-				fi
-				builder_found=1
-				break
+			builder_path="$loc/$extension/$default$build_extension"
+			if [ -x "$builder_path" ]; then
+				output="$("$builder_path" "$filename" "$loc/$extension" "$PARAMETERS")"
+				case $? in
+					0 )
+						[ -f "$filename" ] && builder_found=1 && break;
+						;;
+					?? )          # 10-99
+						builder_found=1
+						file_builder_errors=$[file_builder_errors+1]
+						echo "Builder error for file '$filename'" >&2
+						echo "$output" >&2
+						break;
+						;;
+					? | ??? )     # Parse / runtime error
+						;;
+					* )           # Unknown error
+						;;
+				esac
 			fi
 		done
 		# find model if no builder was found
 		if [ $builder_found -eq 0 ]; then
 			for model_extension in "${MODEL_EXTENSIONS[@]}"; do
-				if [ -f "$loc/$extension/$default$model_extension" ]; then
-					cp "$loc/$extension/$default$model_extension" "$filename"
+				model_path=$loc/$extension/$default$model_extension
+				if [ -f "$model_path" ]; then
+					cp "$model_path" "$filename"
 					[ -x "$filename" ] && chmod 755 "$filename" || chmod 644 "$filename"
 					builder_found=1
 				fi
 			done
+		fi
+		# find extension model if no builder or model was found
+		extension_model_path="$loc/$extension/$default.$extension"
+		if [ $builder_found -eq 0 ] && [ -f "$extension_model_path" ]; then
+			cp "$extension_model_path" "$filename"
+			[ -x "$filename" ] && chmod 755 "$filename" || chmod 644 "$filename"
+			builder_found=1
 		fi
 
 		if [ $builder_found -eq 0 ]; then

@@ -38,6 +38,8 @@ function printHelp() {
 	echo "                      All options should be passed at once"
 	echo "* --builder    | -b   Use a specific builder to generate files"
 	echo "                      Do not use unless you know what you're doing"
+	echo "* --library    | -l   Change the extension library folder"
+	echo "                      Mostly used for debug/development purpose"
 	echo "* --multiple   | -m   Used to generate files with multiple extensions \
 from one base name"
 	echo "                      Separate each extension with a comma"
@@ -159,6 +161,15 @@ while [ $# -ge 1 ]; do
 				is_opt_used=1
 				is_multiple_picky=1
 				EXTENSION_LIST=(${optionnal_part//,/$IFS})
+				;;
+			"l" | "library" )       # Change library repository
+				if [ ! -z "$optionnal_part" ] && [ -d "$optionnal_part" ]; then
+					is_opt_used=1
+					loc="$optionnal_part"
+				else
+					echo "The option $main_part expects a folder as parameter" >&2
+					printHelp 3 >&2
+				fi
 				;;
 			* )                     # Unrecognised option, throw error and exit
 				echo "Unrecognised option: $arg" >&2

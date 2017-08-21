@@ -1,0 +1,7 @@
+#!/bin/bash
+
+filename=$1
+shift; shift
+
+echo "${1}" > $filename
+
